@@ -1,0 +1,162 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.form-box {
+  width: 900px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px 30px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 12px 20px;
+  align-items: center;
+}
+
+input[type="text"],
+input[type="date"],
+input:not([type]) {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.add-btn-container {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.add-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  border-bottom: 1px solid #aaa;
+  padding: 8px 5px;
+  font-weight: normal;
+}
+
+td {
+  padding: 8px 5px;
+}
+
+.submit-container {
+  text-align: right;
+  margin-top: 40px;
+}
+
+.submit-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dob-gender {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dob-gender input[type="date"] {
+  width: 200px;
+}
+
+.gender {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gender span {
+  margin-right: 5px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.search-row label {
+  min-width: 80px;
+}
+
+.search-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-link {
+  font-size: 14px;
+  text-decoration: underline;
+  color: #3b82f6;
+}
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  padding: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn {
+  color: #dc2626;
+}
+
+.delete-btn:hover {
+  color: #b91c1c;
+}
+
+.success-alert {
+  margin: 10px 0 16px;
+  padding: 8px 10px;
+  border: 1px solid #86efac;
+  background-color: #f0fdf4;
+  color: #166534;
+  border-radius: 4px;
+  font-size: 14px;
+}
