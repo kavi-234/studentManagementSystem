@@ -2,32 +2,101 @@ import React, { useState } from "react";
 import "./StudentForm.css";
 
 function StudentForm() {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     fullName: "",
     address: "",
     dob: "",
     gender: "",
     email: "",
     telephone: "",
+  };
+
+  const [formData, setFormData] = useState({
+    ...initialFormData,
   });
 
   const [students, setStudents] = useState([]);
+  const [errors, setErrors] = useState({});
+
+  const validateStudent = (data) => {
+    const validationErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const tenDigitPhoneRegex = /^\d{10}$/;
+
+    if (!data.fullName.trim()) {
+      validationErrors.fullName = "Full name is required.";
+    } else if (data.fullName.trim().length < 2) {
+      validationErrors.fullName = "Full name must be at least 2 characters.";
+    }
+
+    if (!data.address.trim()) {
+      validationErrors.address = "Address is required.";
+    }
+
+    if (!data.dob) {
+      validationErrors.dob = "Date of birth is required.";
+    } else {
+      const selectedDate = new Date(data.dob);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate > today) {
+        validationErrors.dob = "Date of birth cannot be in the future.";
+      }
+    }
+
+    if (!data.gender) {
+      validationErrors.gender = "Gender is required.";
+    }
+
+    if (!data.email.trim()) {
+      validationErrors.email = "Email is required.";
+    } else if (!emailRegex.test(data.email.trim())) {
+      validationErrors.email = "Enter a valid email address.";
+    }
+
+    if (!data.telephone.trim()) {
+      validationErrors.telephone = "Telephone is required.";
+    } else if (!tenDigitPhoneRegex.test(data.telephone.trim())) {
+      validationErrors.telephone = "Telephone must contain exactly 10 digits.";
+    } else if (students.some((s) => s.telephone === data.telephone.trim())) {
+      validationErrors.telephone = "This telephone number already exists in the list.";
+    }
+
+    return validationErrors;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    const normalizedValue =
+      name === "telephone" ? value.replace(/\D/g, "").slice(0, 10) : value;
+
+    setFormData((prev) => ({ ...prev, [name]: normalizedValue }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleAdd = () => {
-    setStudents([...students, formData]);
-    setFormData({
-      fullName: "",
-      address: "",
-      dob: "",
-      gender: "",
-      email: "",
-      telephone: "",
-    });
+    const trimmedFormData = {
+      ...formData,
+      fullName: formData.fullName.trim(),
+      address: formData.address.trim(),
+      email: formData.email.trim(),
+      telephone: formData.telephone.trim(),
+    };
+
+    const validationErrors = validateStudent(trimmedFormData);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setStudents((prev) => [...prev, trimmedFormData]);
+    setFormData({ ...initialFormData });
+    setErrors({});
   };
 
   const handleSubmit = async () => {
@@ -72,34 +141,80 @@ function StudentForm() {
 
         <div className="form-grid">
           <label>Full Name</label>
-          <input name="fullName" value={formData.fullName} onChange={handleChange} />
+          <div className="field-group">
+            <input
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              className={errors.fullName ? "input-error" : ""}
+            />
+            {errors.fullName && <small className="error-text">{errors.fullName}</small>}
+          </div>
 
           <label>Address</label>
-          <input name="address" value={formData.address} onChange={handleChange} />
+          <div className="field-group">
+            <input
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              className={errors.address ? "input-error" : ""}
+            />
+            {errors.address && <small className="error-text">{errors.address}</small>}
+          </div>
 
           <label>Date of Birth</label>
           <div className="dob-gender">
-          <input type="date" name="dob" value={formData.dob} onChange={handleChange} />
+          <div className="field-group">
+            <input
+              type="date"
+              name="dob"
+              value={formData.dob}
+              onChange={handleChange}
+              className={errors.dob ? "input-error" : ""}
+            />
+            {errors.dob && <small className="error-text">{errors.dob}</small>}
+          </div>
 
 
           <div className="gender">
           <span>Gender</span>
           <label>
-            <input type="radio" name="gender" value="Male" onChange={handleChange} />
+            <input type="radio" name="gender" value="Male" checked={formData.gender === "Male"} onChange={handleChange} />
            Male
          </label>
          <label>
-         <input type="radio" name="gender" value="Female" onChange={handleChange} />
+         <input type="radio" name="gender" value="Female" checked={formData.gender === "Female"} onChange={handleChange} />
           Female
          </label>
+         {errors.gender && <small className="error-text">{errors.gender}</small>}
         </div>
 </div>
 
           <label>Email</label>
-          <input name="email" value={formData.email} onChange={handleChange} />
+          <div className="field-group">
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={errors.email ? "input-error" : ""}
+            />
+            {errors.email && <small className="error-text">{errors.email}</small>}
+          </div>
 
           <label>Telephone</label>
-          <input name="telephone" value={formData.telephone} onChange={handleChange} />
+          <div className="field-group">
+            <input
+              type="tel"
+              name="telephone"
+              value={formData.telephone}
+              onChange={handleChange}
+              maxLength={10}
+              placeholder="10-digit number"
+              className={errors.telephone ? "input-error" : ""}
+            />
+            {errors.telephone && <small className="error-text">{errors.telephone}</small>}
+          </div>
         </div>
 
         <div className="add-btn-container">

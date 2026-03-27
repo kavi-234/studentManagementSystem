@@ -28,6 +28,12 @@ h2 {
   align-items: center;
 }
 
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 input[type="text"],
 input[type="date"],
 input:not([type]) {
@@ -35,6 +41,15 @@ input:not([type]) {
   padding: 6px;
   border: 1px solid #aaa;
   border-radius: 4px;
+}
+
+.input-error {
+  border-color: #dc2626;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 12px;
 }
 
 .add-btn-container {
@@ -96,6 +111,7 @@ td {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .gender span {
