@@ -14,3 +14,7 @@ obj/
 # Frontend dependencies/build output
 frontend/node_modules/
 frontend/build/
+
+# Local app settings (may contain machine-specific or sensitive values)
+appsettings.Development.json
+appsettings.*.local.json
